@@ -68,6 +68,7 @@ typedef enum
   TOKEN_PERCENT,
   TOKEN_PLUS,
   TOKEN_MINUS,
+  TOKEN_PLUSEQ,
   TOKEN_LTLT,
   TOKEN_GTGT,
   TOKEN_PIPE,
@@ -971,7 +972,7 @@ static void nextToken(Parser* parser)
       case '*': makeToken(parser, TOKEN_STAR); return;
       case '%': makeToken(parser, TOKEN_PERCENT); return;
       case '^': makeToken(parser, TOKEN_CARET); return;
-      case '+': makeToken(parser, TOKEN_PLUS); return;
+      case '+': twoCharToken(parser, '=', TOKEN_PLUSEQ, TOKEN_PLUS); return;
       case '-': makeToken(parser, TOKEN_MINUS); return;
       case '~': makeToken(parser, TOKEN_TILDE); return;
       case '?': makeToken(parser, TOKEN_QUESTION); return;
@@ -2603,6 +2604,7 @@ GrammarRule rules[] =
   /* TOKEN_PERCENT       */ INFIX_OPERATOR(PREC_FACTOR, "%"),
   /* TOKEN_PLUS          */ INFIX_OPERATOR(PREC_TERM, "+"),
   /* TOKEN_MINUS         */ OPERATOR("-"),
+  /* TOKEN_PLUSEQ        */ INFIX_OPERATOR(PREC_TERM, "+="),
   /* TOKEN_LTLT          */ INFIX_OPERATOR(PREC_BITWISE_SHIFT, "<<"),
   /* TOKEN_GTGT          */ INFIX_OPERATOR(PREC_BITWISE_SHIFT, ">>"),
   /* TOKEN_PIPE          */ INFIX_OPERATOR(PREC_BITWISE_OR, "|"),

@@ -653,6 +653,14 @@ DEF_NUM_FN(sqrt,    sqrt)
 DEF_NUM_FN(tan,     tan)
 DEF_NUM_FN(log,     log)
 
+DEF_PRIMITIVE(num_pluseq)                                                  
+{                                                                         
+  if (!validateNum(vm, args[1], "Right operand")) return args[0];
+  double result = AS_NUM(args[0]) + AS_NUM(args[1]);
+  //:todo: update args[0] to equal result, too, since it's +=
+  RETURN_NUM(result);                        
+}
+
 DEF_PRIMITIVE(num_mod)
 {
   if (!validateNum(vm, args[1], "Right operand")) return false;
@@ -1275,6 +1283,7 @@ void wrenInitializeCore(WrenVM* vm)
   PRIMITIVE(vm->numClass->obj.classObj, "smallest", num_smallest);
   PRIMITIVE(vm->numClass, "-(_)", num_minus);
   PRIMITIVE(vm->numClass, "+(_)", num_plus);
+  PRIMITIVE(vm->numClass, "+=(_)", num_pluseq);
   PRIMITIVE(vm->numClass, "*(_)", num_multiply);
   PRIMITIVE(vm->numClass, "/(_)", num_divide);
   PRIMITIVE(vm->numClass, "<(_)", num_lt);
